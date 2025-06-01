@@ -345,9 +345,9 @@ def compute_reward_kernelbook(
     <think>
     ...
     </think>
-    <solution>
+    <answer>
     ...
-    </solution>
+    </answer>
 
     Args:
         code_context: path -> original content of the file.
@@ -357,7 +357,6 @@ def compute_reward_kernelbook(
     Returns:
         A float value representing the reward, and a dictionary containing some metadata.
     """
-    python_code = sample["python_code"]
     triton_code = sample["triton_code"]
 
     format_reward, code = format_reward_func(completion, EOS_TOKEN)
@@ -373,153 +372,6 @@ def compute_reward_kernelbook(
 
     reward = format_reward + similarity_reward
     return reward, metrics
-
-    # try:
-    #     # Extract the thought and solution from the output
-    #     thought, answer = extract_thought_solution(completion)
-    #     print(f"thought: {thought}")
-    #     print(f"answer: {answer}")
-
-    #     if thought and answer:
-    #         format_reward = 1.0
-    #     elif thought or answer:
-    #         format_reward = 0.5
-    #     else:
-    #         format_reward = 0.0
-
-    #     similarity_reward = compute_change_similarities(
-    #         prediction=answer,
-    #         oracle=triton_code,
-    #         # code_context, oracle_new_content, pred_new_content
-    #     )
-
-    #     metrics = {
-    #         "format_reward": format_reward,
-    #         "similarity_reward": similarity_reward,
-    #         # "equation_reward": 1.0,
-    #     }
-
-    #     reward = format_reward + similarity_reward
-    #     return reward, metrics
-    # except Exception as e:
-    #     metrics = {
-    #         "format_reward": -1.0,
-    #         "similarity_reward": 0.0,
-    #         # "equation_reward": 0.0,
-    #     }
-    #     return -1.0, metrics
-
-def compute_reward_kernelbook_old(
-    completion: str,
-    sample: Dict[str, Any], EOS_TOKEN: str) -> Tuple[float, Dict[str, float]]:
-    """
-    The search/replace version of the reward calculation. It expects the output to contain
-    the thought and solution in the following format:
-    <think>
-    ...
-    </think>
-    <solution>
-    ...
-    </solution>
-
-    Args:
-        code_context: path -> original content of the file.
-        oracle_new_content: path -> oracle new content of the file after change.
-        output: The output from the model containing the thought and solution.
-
-    Returns:
-        A float value representing the reward, and a dictionary containing some metadata.
-    """
-    python_code = sample["python_code"]
-    triton_code = sample["triton_code"]
-    try:
-        # Extract the thought and solution from the output
-        thought, answer = extract_thought_solution(completion)
-        print(f"thought: {thought}")
-        print(f"answer: {answer}")
-
-        if thought and answer:
-            format_reward = 1.0
-        elif thought or answer:
-            format_reward = 0.5
-        else:
-            format_reward = 0.0
-
-        similarity_reward = compute_change_similarities(
-            prediction=answer,
-            oracle=triton_code,
-            # code_context, oracle_new_content, pred_new_content
-        )
-
-        metrics = {
-            "format_reward": format_reward,
-            "similarity_reward": similarity_reward,
-            # "equation_reward": 1.0,
-        }
-
-        reward = format_reward + similarity_reward
-        return reward, metrics
-    except Exception as e:
-        metrics = {
-            "format_reward": -1.0,
-            "similarity_reward": 0.0,
-            # "equation_reward": 0.0,
-        }
-        return -1.0, metrics
-
-# TODO (ISS): fix
-def format_reward_func_old(completion: str, EOS_TOKEN: str) -> float:
-    """
-    Format: <think>...</think>\n```...```\n
-
-    Also checks that the content within <answer>...</answer> conforms to a
-    specified pattern (only digits, + - * / ( ) . and whitespace).
-
-    Args:
-        completion (str): Generated output
-        EOS_TOKEN (str): End of sequence token
-
-    Returns:
-        float: Reward score
-    """
-    # Define the allowed pattern (only numbers, +, -, *, /, (, ), ., and whitespace)
-    allowed_pattern = r"^[\d+\-*/().\s]+$"
-
-    try:
-        # Synthetically prepend <think> (if your pipeline relies on that to ease matching)
-        completion = "<think>" + completion
-
-        # Strip EOS token if present
-        if completion.endswith(EOS_TOKEN):
-            completion = completion[: -len(EOS_TOKEN)]
-
-        # Check if the format is correct
-        # Pattern means:
-        # 1) <think>...contents not including other <think> tags...</think>
-        # 2) \n (optional)
-        # 3) ```python...anything...```
-        regex = r"^<think>([^<]*(?:<(?!/?think>)[^<]*)*)<\/think>\n```([\s\S]*?)```$"
-        match = re.search(regex, completion, re.DOTALL)
-
-        if match is None or len(match.groups()) != 2:
-            # Format is incorrect
-            return 0.0
-        else:
-            # Extract the content inside <answer>...</answer>
-            answer_content = match.group(2).strip()
-
-            print(f"answer_content: {answer_content}")
-            # Check if answer content matches the allowed pattern
-            if not re.match(allowed_pattern, answer_content):
-                # If it doesn't match, reward is 0.5
-                return 0.5
-            else:
-                # If both format and pattern are correct, reward is 1
-                return 1.0
-    except Exception:
-        # Any error leads to 0 reward
-        return 0.0
-
 
 def create_training_episodes(
     *,
