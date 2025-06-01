@@ -70,12 +70,36 @@ We test on label 1 (100 test cases) with temperature 1.0 and top_p 0.97. Prelimi
 
 ## 📂 Code Structure
 
+Here are two main components of the code:
+1. `nano_r1_script.py` is originally from [nano-aha-moment](https://github.com/McGill-NLP/nano-aha-moment/blob/f6384878831796fc29f560016e3cd570d264b823/nano_r1_script.py) and modified for our project, `kernel-coder`
+2. [`KernelBench`](https://github.com/insop/KernelBench) is forked from [this repo](https://github.com/ScalingIntelligence/KernelBench) and modified for our project
+
+Here is the repository structure of the project.
+
+```
+kernel-coder/
+├── README.md
+├── kernel-coder
+│   ├── nano_r1_script.py # main code
+│   └── utils.py
+└── scripts
+    └── kernelllm.py # helper script from KernelLLM model, https://huggingface.co/facebook/KernelLLM
+```
+
+### 🏃 How to run
+
+```bash
+cd kernel-coder # cd to the project root
+python kernel-coder/nano_r1_script.py --nproc 8  --max_response_tokens 2048
+
+```
 
 
 ## 🙏 Acknowledgements
 
 We build on the following resources:
-	•	📊 KernelBench (CUDA & Triton kernel benchmark)
-	•	🔥 KernelLLM (SFT model on KernelBook dataset)
-	•	📚 KernelBook (Triton kernel dataset)
-	•	🧪 nano-aha-moment (GRPO pipeline baseline)
+
+1. 📊 [KernelBench (Cuda and Triton kernel benchmark)](https://github.com/ScalingIntelligence/KernelBench.git)
+2. 🔥 [KerneLllm (SFT model with KernelBook dataset)](https://huggingface.co/facebook/KernelLLM)
+3. 📚 [KernelBook (Triton Kernel Dataset)](https://huggingface.co/datasets/GPUMODE/KernelBook)
+4. 🧪 [nano-aha-moment (simple GRPO pipeline)](git@github.com:insop/nano-aha-moment.git)
