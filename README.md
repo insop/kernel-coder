@@ -67,14 +67,17 @@ kernel-coder (GRPO-trained)	🚧 TBD	🚧 TBD
 
 We test on label 1 (100 test cases) with temperature 1.0 and top_p 0.97. Preliminary results show the importance of Triton-specific training for compilation and correctness.
 
+Here is the training progress plot at 100 steps:
+
+![kernel-coder_1](assets/kernel-coder_1.png)
 
 ## 📂 Code Structure
 
-Here are two main components of the code:
-1. `nano_r1_script.py` is originally from [nano-aha-moment](https://github.com/McGill-NLP/nano-aha-moment/blob/f6384878831796fc29f560016e3cd570d264b823/nano_r1_script.py) and modified for our project, `kernel-coder`
-2. [`KernelBench`](https://github.com/insop/KernelBench) is forked from [this repo](https://github.com/ScalingIntelligence/KernelBench) and modified for our project
+The codebase consists of two main components:
+1. `nano_r1_script.py` - Modified from [nano-aha-moment](https://github.com/McGill-NLP/nano-aha-moment/blob/f6384878831796fc29f560016e3cd570d264b823/nano_r1_script.py) for our `kernel-coder` project
+2. [`KernelBench`](https://github.com/insop/KernelBench) - Forked and modified from [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench)
 
-Here is the repository structure of the project.
+Project structure:
 
 ```
 kernel-coder/
