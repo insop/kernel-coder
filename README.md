@@ -35,7 +35,7 @@ We design an RL training pipeline to train a base model for generating [Triton K
 
 We design the reward function with two components:
 
-1. ✅ Format Checking: Validate correct usage of `<thinking>` and `<answer>` tags.
+1. ✅ Format Checking: Validate correct usage of `<think>` and `<answer>` tags.
 2.	🔍 Similarity Score: Measure string similarity between generated and ground-truth Triton kernels using Python’s `difflib.SequenceMatcher`. This idea is inspired by [`SWE-RL`](https://arxiv.org/abs/2502.18449).
 
 ### 🧪 Evaluation
