@@ -129,6 +129,15 @@ python kernel-coder/nano_r1_script.py --nproc 8  --max_response_tokens 2048
 
 ```
 
+### 🧪 Running tests
+
+Install `pytest` and run the test suite from the project root:
+
+```bash
+pip install pytest
+pytest
+```
+
 
 ## 🙏 Acknowledgements
 
