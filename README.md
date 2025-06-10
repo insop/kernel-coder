@@ -93,10 +93,6 @@ Using [KernelBench (Cuda and Triton kernel benchmark), (`triton_backend_v2` bran
 
 We test on label 1 (100 test cases) with temperature 1.0 and top_p 0.97. Preliminary results show the importance of Triton-specific training for compilation and correctness.
 
-Here is the training progress plot at 100 steps:
-
-![kernel-coder_1](assets/kernel-coder_1.png)
-
 ## 📂 Code Structure
 
 The codebase consists of two main components:
