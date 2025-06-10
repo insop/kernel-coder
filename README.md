@@ -2,6 +2,12 @@
 
 An AI code assistant that helps write Triton kernel code.
 
+**Summary**:
+
+We introduce Kernel Coder, an AI assistant for writing Triton GPU kernels, trained using a novel GRPO-based reinforcement learning pipeline. By combining format validation and similarity rewards, we optimize the compact Qwen2.5-Coder-3B model on the KernelBook dataset. Our approach aims to match or surpass KerneLllm (Llama 3.1 8B) in generating correct and efficient Triton code.
+
+## 💡 Introduction
+
 We design an RL training pipeline to train a base model for generating [Triton Kernel](https://openai.com/index/triton/) code. Triton is a Python-based DSL for GPU programming. Inspired by [DeepSeek-R1-Zero](https://arxiv.org/abs/2501.12948), we implement a [GRPO](https://arxiv.org/abs/2402.03300)-based RL pipeline to train a base model ([`Qwen2.5-Coder-3B`](https://huggingface.co/Qwen/Qwen2.5-Coder-3B)).
 
 ## 📑 Table of Contents
@@ -96,7 +102,7 @@ We test on label 1 (100 test cases) with temperature 1.0 and top_p 0.97. Prelimi
 ## 📂 Code Structure
 
 The codebase consists of two main components:
-1. `nano_r1_script.py` - Modified from [nano-aha-moment](https://github.com/McGill-NLP/nano-aha-moment/blob/f6384878831796fc29f560016e3cd570d264b823/nano_r1_script.py) for our `kernel-coder` project
+1. `nano_r1_script.py` - Modified for our project and originally from [nano-aha-moment](https://github.com/McGill-NLP/nano-aha-moment/blob/f6384878831796fc29f560016e3cd570d264b823/nano_r1_script.py)
 2. [`KernelBench`](https://github.com/insop/KernelBench) - Forked and modified from [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench)
 
 Project structure:
