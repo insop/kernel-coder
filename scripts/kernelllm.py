@@ -318,7 +318,7 @@ class KernelLLM:
             if not code:
                 print(f"Using default prompt:\n{DEFAULT_MODEL_CODE}\n")
                 code = DEFAULT_MODEL_CODE
-            prompt = PROMPT_TEMPLATE.format(DEFAULT_MODEL_CODE)
+            prompt = PROMPT_TEMPLATE.format(code)
 
             try:
                 self.stream_raw(prompt)
