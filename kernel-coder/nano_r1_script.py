@@ -229,7 +229,7 @@ def extract_first_code(output_string: str, code_language_types: list[str]) -> st
 
     return None
 
-def format_reward_func(completion: str, EOS_TOKEN: str) -> float:
+def format_reward_func(completion: str, EOS_TOKEN: str) -> tuple[float, str | None]:
     """
     Format: <think>...</think>anything
 
@@ -238,7 +238,8 @@ def format_reward_func(completion: str, EOS_TOKEN: str) -> float:
         EOS_TOKEN (str): End of sequence token
 
     Returns:
-        float: Reward score
+        Tuple containing the reward score and the first extracted code block if
+        available.
     """
 
     code = None
